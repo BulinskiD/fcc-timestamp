@@ -1,4 +1,4 @@
-const { isValid } = require("date-fns");
+const { isValid, format } = require("date-fns");
 const express = require("express");
 const app = express();
 
@@ -26,9 +26,12 @@ app.get(
   },
   (req, res) => {
     if (isValid(req.date)) {
-      res.json({ unix: req.date.getTime(), utc: req.date.toString() });
+      res.json({
+        unix: req.date.getTime(),
+        utc: format(req.date, "EEE',' dd MMM YYYY HH:mm:ss OOO"),
+      });
     } else {
-      res.json({ error: req.date.toString() });
+      res.json({ error: req.date });
     }
   }
 );
