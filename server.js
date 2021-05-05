@@ -1,7 +1,3 @@
-// server.js
-// where your node app starts
-
-// init project
 const { isValid } = require("date-fns");
 const express = require("express");
 const app = express();
@@ -15,7 +11,6 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/views/index.html");
 });
 
-// your first API endpoint...
 app.get("/api/hello", function (req, res) {
   res.json({ greeting: "hello API" });
 });
@@ -24,11 +19,9 @@ app.get(
   "/api/:date?",
   (req, res, next) => {
     const date = req.params.date;
-    if (date) {
-      req.date = new Date(date);
-    } else {
-      req.date = new Date();
-    }
+    req.date = date
+      ? new Date(Number.isNaN(Number(date)) ? date : Number(date))
+      : new Date();
     next();
   },
   (req, res) => {
